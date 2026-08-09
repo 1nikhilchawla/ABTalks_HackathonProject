@@ -19,7 +19,11 @@ services:
       # runs on the offline rubric engine.
       - key: ANTHROPIC_API_KEY
         sync: false
-    disk:
-      name: cohortiq-data
-      mountPath: /data
-      sizeGB: 1
+    # No disk: Render's free tier does not support them. /data still exists and
+    # is writable inside the container, so everything works — it is just
+    # ephemeral, so interviews are lost when the instance sleeps or redeploys.
+    # For durability across restarts, move to plan: starter and re-add:
+    #   disk:
+    #     name: cohortiq-data
+    #     mountPath: /data
+    #     sizeGB: 1
