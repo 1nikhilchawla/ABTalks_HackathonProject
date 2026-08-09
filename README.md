@@ -288,6 +288,11 @@ markers) and measure the score delta; `backend/tools/calibrate.py` is where it w
 **[docs/DEPLOY.md](docs/DEPLOY.md)** — one-command deploy to Render or Fly, plus what to verify once
 it is up (`llm.live` and `sessions.durable` are the two that matter).
 
+## AI usage
+
+**[docs/AI-USAGE.md](docs/AI-USAGE.md)** — what was written by an AI assistant, what was human-
+directed, the bugs the AI shipped and who caught each one, and what remains unverified.
+
 ---
 
 ## Where this goes next
