@@ -1,0 +1,166 @@
+{
+  "cohort": "Platform Engineering Cohort · 14 days · 4 modules",
+  "_note": "A second, deliberately different curriculum. Different day numbers, different domain, different module boundaries. It exists to prove the engine has no hardcoded coupling to the AI cohort: set CURRICULUM_PATH=curriculum.platform.json and everything still plans, asks and scores.",
+  "modules": [
+    { "n": 1, "title": "Foundations & Version Control", "days": [1, 3] },
+    { "n": 2, "title": "Infrastructure as Code", "days": [4, 7] },
+    { "n": 3, "title": "Pipelines & Release Engineering", "days": [8, 11] },
+    { "n": 4, "title": "Operations & Capstone", "days": [12, 14] }
+  ],
+  "days": [
+    {
+      "day": 1,
+      "title": "Toolchain & Shell Setup",
+      "type": "SETUP",
+      "tools": ["Git", "zsh", "Homebrew", "direnv"],
+      "objectives": [
+        "Install and configure the platform toolchain",
+        "Set up reproducible shell environments per project",
+        "Verify the toolchain on a clean machine"
+      ]
+    },
+    {
+      "day": 2,
+      "title": "Linux Fundamentals for Operators",
+      "type": "LEARN",
+      "tools": ["systemd", "journalctl", "strace", "lsof"],
+      "objectives": [
+        "Understand process lifecycle and service supervision",
+        "Diagnose a hung service from logs and open file handles",
+        "Explain how signals and exit codes propagate"
+      ]
+    },
+    {
+      "day": 3,
+      "title": "Git Workflows & Trunk-Based Development",
+      "type": "BUILD",
+      "tools": ["Git", "GitHub", "pre-commit"],
+      "objectives": [
+        "Implement a trunk-based branching workflow",
+        "Automate checks with pre-commit hooks",
+        "Recover a repository from a bad force-push"
+      ]
+    },
+    {
+      "day": 4,
+      "title": "Terraform Core Concepts",
+      "type": "AI_CORE",
+      "tools": ["Terraform", "HCL", "tflint"],
+      "objectives": [
+        "Model infrastructure declaratively with Terraform",
+        "Explain state, drift and the plan/apply cycle",
+        "Structure modules for reuse across environments"
+      ]
+    },
+    {
+      "day": 5,
+      "title": "Remote State & Locking",
+      "type": "BUILD",
+      "tools": ["Terraform", "S3", "DynamoDB"],
+      "objectives": [
+        "Configure remote state with locking",
+        "Recover from a stale lock without corrupting state",
+        "Separate state per environment safely"
+      ]
+    },
+    {
+      "day": 6,
+      "title": "Secrets Management",
+      "type": "BUILD",
+      "tools": ["Vault", "SOPS", "AWS KMS"],
+      "objectives": [
+        "Store and rotate secrets without committing them",
+        "Inject secrets into workloads at runtime",
+        "Audit who accessed which secret and when"
+      ]
+    },
+    {
+      "day": 7,
+      "title": "Infrastructure Modules & Environments",
+      "type": "SHIP_IT",
+      "tools": ["Terraform", "Terragrunt"],
+      "objectives": [
+        "Ship a reusable module consumed by two environments",
+        "Promote a change from staging to production safely",
+        "Document the module contract and its breaking changes"
+      ]
+    },
+    {
+      "day": 8,
+      "title": "Container Images & Build Caching",
+      "type": "BUILD",
+      "tools": ["Docker", "BuildKit", "Trivy"],
+      "objectives": [
+        "Build minimal, reproducible container images",
+        "Use layer caching to cut build time",
+        "Scan images for known vulnerabilities before release"
+      ]
+    },
+    {
+      "day": 9,
+      "title": "CI Pipelines",
+      "type": "BUILD",
+      "tools": ["GitHub Actions", "Make", "Docker"],
+      "objectives": [
+        "Build a pipeline that tests, builds and publishes artifacts",
+        "Make pipelines fast with caching and parallelism",
+        "Fail a pipeline loudly and usefully"
+      ]
+    },
+    {
+      "day": 10,
+      "title": "Progressive Delivery",
+      "type": "SHIP_IT",
+      "tools": ["Argo Rollouts", "Kubernetes", "Flagger"],
+      "objectives": [
+        "Implement canary and blue-green deployment strategies",
+        "Define automated rollback criteria from live metrics",
+        "Deploy a change to production with zero downtime"
+      ]
+    },
+    {
+      "day": 11,
+      "title": "Reliability & Error Budgets",
+      "type": "LEARN",
+      "tools": ["SLO tooling", "Prometheus"],
+      "objectives": [
+        "Define SLIs and SLOs for a real service",
+        "Explain how an error budget changes release decisions",
+        "Choose alert thresholds that do not page for noise"
+      ]
+    },
+    {
+      "day": 12,
+      "title": "Observability & Incident Response",
+      "type": "SHIP_IT",
+      "tools": ["Prometheus", "Grafana", "OpenTelemetry", "PagerDuty"],
+      "objectives": [
+        "Instrument a service with traces, metrics and structured logs",
+        "Build a dashboard that answers a real on-call question",
+        "Run an incident and write a blameless postmortem"
+      ]
+    },
+    {
+      "day": 13,
+      "title": "Performance & Cost Optimization",
+      "type": "OPTIMIZE",
+      "tools": ["k6", "Cost Explorer", "pprof"],
+      "objectives": [
+        "Load test a service and find its first bottleneck",
+        "Reduce infrastructure cost without hurting latency",
+        "Document measured before-and-after numbers"
+      ]
+    },
+    {
+      "day": 14,
+      "title": "Capstone: Ship a Platform Service",
+      "type": "CAPSTONE",
+      "tools": ["Terraform", "Kubernetes", "GitHub Actions", "Prometheus"],
+      "objectives": [
+        "Deliver a production service end to end with IaC and CI",
+        "Demonstrate rollback, alerting and on-call readiness",
+        "Present the architecture and its trade-offs"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+# Fly.io. From the repo root:
+#   fly launch --no-deploy --copy-config
+#   fly volumes create cohortiq_data --size 1
+#   fly secrets set ANTHROPIC_API_KEY=sk-ant-...
+#   fly deploy
+app = "cohortiq"
+primary_region = "lhr"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  DB_PATH = "/data/sessions.db"
+  CORS_ORIGINS = "*"
+  EXPOSE_TRACE = "true"
+
+[mounts]
+  source = "cohortiq_data"
+  destination = "/data"
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = "suspend"
+  auto_start_machines = true
+  min_machines_running = 0
+
+  [[http_service.checks]]
+    grace_period = "10s"
+    interval = "30s"
+    method = "GET"
+    timeout = "5s"
+    path = "/api/health"
+
+[[vm]]
+  memory = "512mb"
+  cpu_kind = "shared"
+  cpus = 1

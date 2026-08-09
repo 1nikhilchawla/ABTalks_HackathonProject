@@ -1,0 +1,25 @@
+# Render blueprint. Push this repo to GitHub, then:
+#   New → Blueprint → point at the repo → Apply.
+# Free tier works; the disk keeps interviews alive across restarts.
+services:
+  - type: web
+    name: cohortiq
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: DB_PATH
+        value: /data/sessions.db
+      - key: CORS_ORIGINS
+        value: "*"
+      - key: EXPOSE_TRACE
+        value: "true"
+      # Set this in the Render dashboard, not here. Without it the app still
+      # runs on the offline rubric engine.
+      - key: ANTHROPIC_API_KEY
+        sync: false
+    disk:
+      name: cohortiq-data
+      mountPath: /data
+      sizeGB: 1

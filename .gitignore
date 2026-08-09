@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Secrets — .env.example is committed, .env is not
+.env
+
+# Runtime state. Recreated every time the server runs, so delete it again
+# immediately before archiving; a zip of the working directory ignores this file.
+#
+# LEADING SLASH IS LOAD-BEARING: an unanchored `data/` also matches
+# backend/app/data/, which holds the curriculum, the candidate roster, the
+# golden set and two source modules. Without the slash a fresh clone has no
+# curriculum and the app cannot start.
+/data/
+*.db
+*.db-wal
+*.db-shm
+
+# Node / build output. The UI is built from source (npm run build, or the
+# Dockerfile's first stage), so dist is not committed.
+node_modules/
+dist/
+*.tsbuildinfo
+
+# OS
+.DS_Store
+Thumbs.db

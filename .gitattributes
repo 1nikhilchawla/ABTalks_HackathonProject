@@ -1,0 +1,7 @@
+# Normalise line endings so the repo doesn't churn between Windows and Linux
+# checkouts (and so the Docker build sees LF).
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.ico binary

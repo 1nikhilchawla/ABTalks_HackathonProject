@@ -1,0 +1,80 @@
+{
+  "_note": "Hand-labelled evaluation set. Each answer carries the band a senior interviewer would place it in. Used by tools/calibrate.py to measure scoring variance and by tests/test_calibration.py to assert the rubric ranks bands in the right order. Labels are ours, not validated against an external panel — that limitation is stated in the README.",
+  "bands": {
+    "strong": "Would satisfy a senior engineer: mechanism, decisions and evidence.",
+    "adequate": "Correct but shallow: describes outcome, thin on mechanism.",
+    "weak": "Surface level, evasive, or contentless."
+  },
+  "cases": [
+    {
+      "id": "G01",
+      "day": 10,
+      "band": "strong",
+      "question": "How did you build the query router that decides between SQL and vector search?",
+      "answer": "The router classifies on whether the question needs an aggregate. Anything asking for totals or counts goes to SQL against the claims table; policy wording goes to the vector store. Ambiguous questions run both and I merge on document id, deduplicating by a hash of the chunk text. I evaluated it on 60 labelled questions and routing accuracy was 88%, with the failures mostly being questions that genuinely needed both."
+    },
+    {
+      "id": "G02",
+      "day": 7,
+      "band": "strong",
+      "question": "How did you generate embeddings for the knowledge base?",
+      "answer": "I used sentence-transformers all-MiniLM-L6-v2, 384 dimensions, because the corpus was small and I wanted it to run locally without an API bill. I stored the vector next to the source text and a section label so I could filter later. To sanity check them I ran PCA and confirmed deductible questions clustered separately from network-coverage questions, which told me the embeddings were separating on meaning rather than on document length."
+    },
+    {
+      "id": "G03",
+      "day": 27,
+      "band": "strong",
+      "question": "How did you guard against prompt injection through retrieved documents?",
+      "answer": "I treat every retrieved chunk as untrusted. It goes into the prompt inside a delimited block, and the system prompt states that the block is data, never instructions. I also strip zero-width characters before matching, because otherwise you can hide an instruction inside a word. The failure I could not fully close was a document that phrases an instruction as ordinary prose, so I added an output check that refuses answers citing no chunk id."
+    },
+    {
+      "id": "G04",
+      "day": 22,
+      "band": "adequate",
+      "question": "How did the multi-agent setup compare to a single agent?",
+      "answer": "We had a router agent and two specialists, one for claims and one for coverage. The multi-agent version handled complicated questions better. It was a bit slower but the answers were more accurate overall, so we kept it."
+    },
+    {
+      "id": "G05",
+      "day": 16,
+      "band": "adequate",
+      "question": "How does your /chat endpoint manage conversation state?",
+      "answer": "Each request carries a session id and I look up the previous messages in SQLite, then pass them to the model along with the retrieved context. When the history gets long I summarise the older turns so the prompt does not grow forever."
+    },
+    {
+      "id": "G06",
+      "day": 12,
+      "band": "adequate",
+      "question": "How did you choose between zero-shot, few-shot and chain-of-thought prompting?",
+      "answer": "I tried all three on the same question set. Few-shot was the most consistent for our format requirements, so that is what went into production. Chain-of-thought helped on the harder reasoning questions but made responses longer."
+    },
+    {
+      "id": "G07",
+      "day": 28,
+      "band": "weak",
+      "question": "How did you containerise and deploy the application?",
+      "answer": "We basically used Docker and Kubernetes with best practices. It was pretty robust and scalable, and the deployment was seamless once everything was set up properly."
+    },
+    {
+      "id": "G08",
+      "day": 8,
+      "band": "weak",
+      "question": "Why did you pick Chroma over Pinecone?",
+      "answer": "Chroma seemed like the right choice for what we were doing. Pinecone is also good but we went with Chroma. It worked fine for our use case."
+    },
+    {
+      "id": "G09",
+      "day": 11,
+      "band": "weak",
+      "question": "Walk me through your RAG pipeline end to end.",
+      "answer": "So there is a pipeline and the user asks a question and then it retrieves stuff and the model answers using that stuff and then we show it in the UI and it generally works well most of the time for the questions people ask."
+    },
+    {
+      "id": "G10",
+      "day": 25,
+      "band": "strong",
+      "question": "How did you evaluate the chatbot before deployment?",
+      "answer": "I built a 60-question benchmark covering the plan types we support, with a reference answer and the chunk ids that should have been retrieved. I measured retrieval recall at 5 separately from answer grounding, because conflating them hides which half is broken. Recall was 78% and grounding 91% of the time it retrieved correctly, so the remaining errors were retrieval, not generation. That told me where to spend the next week."
+    }
+  ]
+}
