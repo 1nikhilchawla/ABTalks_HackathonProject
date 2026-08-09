@@ -12,9 +12,7 @@ POST /api/interview   →   { reply, done, feedback? }
 ```
 
 > **Live URL:** _not deployed yet_ — `render.yaml` and `fly.toml` are in the repo; see
-> [docs/DEPLOY.md](docs/DEPLOY.md) for the one-command deploy and the pre-submission checklist.
-> **Demo video:** _not recorded yet_ — shot list is in the same file. Both belong at the top of this
-> README before anyone else reads it.
+> [docs/DEPLOY.md](docs/DEPLOY.md). Put the URL here once it is up.
 
 **The counterintuitive bit, and the whole product in one sentence:** a first-try pass earns a
 *harder* question, because the record says they own that ground. A mission passed on the fourth
@@ -270,19 +268,16 @@ rate-limited per client and session.
 
 **Known gaps, stated rather than hidden:** no authentication, and session IDs are client-supplied, so
 `GET /api/session/{id}` is guessable by design in a demo. `EXPOSE_TRACE=true` is right for judging and
-wrong for production. No bias testing — for a product that scores people, that is a real gap; the
-harness we would build is described in [docs/DEMO.md](docs/DEMO.md).
+wrong for production. No bias testing — for a product that scores people, that is a real gap. The
+harness would hold answer content fixed, vary surface features (name, phrasing, first-language
+markers) and measure the score delta; `backend/tools/calibrate.py` is where it would go.
 
 ---
 
-## Demo and pitch
+## Running it elsewhere
 
-**[docs/DEMO.md](docs/DEMO.md)** — the two-minute run, a topic-keyed answer sheet (not an ordered
-script — the engine adapts, so a fixed order collides with it), and the interrogation answers.
-
-**[docs/DEPLOY.md](docs/DEPLOY.md)** — one-command deploy to Render or Fly, the backup-video shot
-list, and the pre-submission checklist. The two things this repo can't generate for itself are a URL
-and a video; both are fifteen minutes of work and both are worth more than another feature.
+**[docs/DEPLOY.md](docs/DEPLOY.md)** — one-command deploy to Render or Fly, plus what to verify once
+it is up (`llm.live` and `sessions.durable` are the two that matter).
 
 ---
 
