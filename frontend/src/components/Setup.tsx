@@ -87,8 +87,11 @@ export function Setup({
         <div className="mb-3 flex flex-wrap items-center gap-2">
           <Badge tone="accent">Adaptive interview engine</Badge>
           {live === false && (
-            <Badge tone="mid" title="No model API key is configured; the offline rubric engine is running.">
-              offline rubric mode
+            <Badge
+              tone="neutral"
+              title="Running entirely offline: no API key, no network calls. Questions are composed from curriculum objectives and scores are rule-derived."
+            >
+              offline rubric engine
             </Badge>
           )}
         </div>

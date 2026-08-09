@@ -13,9 +13,10 @@ git push origin main
 In Render: **New → Blueprint →** point at the repo **→ Apply**. `render.yaml` declares the service and
 the health check.
 
-Add `ANTHROPIC_API_KEY` in the dashboard (it is deliberately `sync: false` in the blueprint so the key
-never lands in git). Without it the deploy still works — it runs the offline rubric engine and labels
-itself accordingly.
+**Nothing else to configure.** No API key, no billing account. The offline rubric engine runs the
+whole interview. If you later want model-written questions, add `ANTHROPIC_API_KEY` (or
+`OPENAI_API_KEY` / `GROQ_API_KEY`) in the Render dashboard — never in `render.yaml`. `LLM_PROVIDER`
+is left at `auto`, so a key is picked up the moment it exists.
 
 **Free-tier caveats, both real:**
 
@@ -32,7 +33,7 @@ fly launch --no-deploy --copy-config
 ```
 
 ```bash
-fly volumes create cohortiq_data --size 1 && fly secrets set ANTHROPIC_API_KEY=sk-ant-... && fly deploy
+fly volumes create cohortiq_data --size 1 && fly deploy
 ```
 
 Fly does support volumes, so `fly.toml` mounts one at `/data` and sessions survive restarts.
@@ -40,7 +41,7 @@ Fly does support volumes, so `fly.toml` mounts one at `/data` and sessions survi
 ## Anywhere else
 
 ```bash
-docker build -t cohortiq . && docker run -p 8000:8000 -v cohortiq_data:/data -e ANTHROPIC_API_KEY=sk-ant-... cohortiq
+docker build -t cohortiq . && docker run -p 8000:8000 -v cohortiq_data:/data cohortiq
 ```
 
 ---
@@ -53,11 +54,11 @@ curl -s https://YOUR-URL/api/health | python -m json.tool
 
 Three things in that output:
 
-| Field | Want | Meaning if wrong |
+| Field | Expect | Notes |
 | --- | --- | --- |
-| `status` | `ok` | App did not start |
-| `llm.live` | `true` | No API key reached the process — it is on the offline rubric engine |
-| `sessions.durable` | `true` | Falls back to an in-memory store; `false` means the path was unwritable |
+| `status` | `ok` | Anything else means the app did not start |
+| `llm.live` | `false` | Correct by default — the offline rubric engine is running. Only a problem if you set a key and still see `false`, which means the key never reached the process |
+| `sessions.durable` | `true` | `false` means the DB path was unwritable and it fell back to an in-memory store |
 
 Note `durable: true` only says SQLite is writing to disk. On a platform without a mounted volume
 (Render free tier) that disk is still ephemeral.

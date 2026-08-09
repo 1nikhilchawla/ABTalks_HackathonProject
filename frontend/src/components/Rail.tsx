@@ -231,8 +231,9 @@ export function Rail({ state, trace }: { state: SessionState | null; trace: Trac
             )}
           </dl>
           {!trace.provider.live && (
-            <p className="mt-2.5 text-[11.5px] leading-relaxed" style={{ color: "var(--mid)" }}>
-              No model key configured — questions and scores come from the offline rubric engine.
+            <p className="mt-2.5 text-[11.5px] leading-relaxed" style={{ color: "var(--text-dim)" }}>
+              Running on the offline rubric engine — no API key, no network. Questions are composed
+              from curriculum objectives and scores are rule-derived, both tagged as such.
             </p>
           )}
         </Panel>

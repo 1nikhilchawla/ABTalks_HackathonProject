@@ -44,10 +44,12 @@ async def lifespan(app: FastAPI):
         removed,
     )
     if not services.router.is_live():
-        log.warning(
-            "No LLM API key found. Running on the offline rubric engine — the interview works "
-            "end to end, but questions come from templates. Set ANTHROPIC_API_KEY, OPENAI_API_KEY "
-            "or GROQ_API_KEY for full behaviour."
+        # Not a warning: this is a supported mode, not a misconfiguration.
+        log.info(
+            "Running on the offline rubric engine — no API key needed. The full interview works: "
+            "planning, adaptive questioning, scoring and reporting. Questions are composed from "
+            "curriculum objectives rather than model-written. Set ANTHROPIC_API_KEY, OPENAI_API_KEY "
+            "or GROQ_API_KEY if you want model-written questions."
         )
     yield
     await shutdown_services()

@@ -42,12 +42,21 @@ Open **http://127.0.0.1:8000**. API docs at `/docs`.
 Or in one command:
 
 ```bash
-docker build -t cohortiq . && docker run -p 8000:8000 -e ANTHROPIC_API_KEY=sk-ant-... cohortiq
+docker build -t cohortiq . && docker run -p 8000:8000 cohortiq
 ```
 
-**No API key?** It still runs, end to end. The offline rubric engine takes over, the UI labels
-itself `offline rubric mode`, and every score is tagged as rule-derived rather than model-derived.
-For the real experience, copy `.env.example` to `.env` and set one key.
+**No API key needed, and none is configured.** The whole thing runs on a built-in offline rubric
+engine: evidence-linked planning, adaptive questioning, six-dimension scoring, the grounded report
+and the cohort view. No billing account, no signup, no network call to anyone.
+
+The trade-off, stated plainly rather than hidden: offline, questions are composed from the
+curriculum's own learning objectives instead of being written by a model, so they read more
+mechanical. Scoring is rule-based. Both are labelled as such in the UI and in every score record, so
+nothing rule-derived is ever presented as model judgement.
+
+Want model-written questions? Copy `.env.example` to `.env` and add any one key — Anthropic, OpenAI,
+Groq, or a local Ollama endpoint (also free). `LLM_PROVIDER=auto` picks it up automatically and falls
+back to the rubric engine if it fails.
 
 ---
 

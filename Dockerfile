@@ -1,5 +1,7 @@
 # Single image: builds the UI, then serves it from the API.
-# docker build -t cohortiq . && docker run -p 8000:8000 -e ANTHROPIC_API_KEY=... cohortiq
+# docker build -t cohortiq . && docker run -p 8000:8000 cohortiq
+# No API key required. Add -e ANTHROPIC_API_KEY=... only if you want
+# model-written questions instead of the offline rubric engine.
 
 FROM node:22-slim AS ui
 WORKDIR /ui

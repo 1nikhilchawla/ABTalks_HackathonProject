@@ -15,10 +15,15 @@ services:
         value: "*"
       - key: EXPOSE_TRACE
         value: "true"
-      # Set this in the Render dashboard, not here. Without it the app still
-      # runs on the offline rubric engine.
-      - key: ANTHROPIC_API_KEY
-        sync: false
+      # No API key, no billing, no signup anywhere. The offline rubric engine
+      # runs the whole interview: planning, scoring and reporting.
+      #
+      # To use a hosted model later, add ANTHROPIC_API_KEY (or OPENAI_API_KEY /
+      # GROQ_API_KEY) in the Render dashboard — never in this file. LLM_PROVIDER
+      # is left at "auto", so a key is picked up automatically when present and
+      # the app falls back to the rubric engine when it is not.
+      - key: LLM_PROVIDER
+        value: auto
     # No disk: Render's free tier does not support them. /data still exists and
     # is writable inside the container, so everything works — it is just
     # ephemeral, so interviews are lost when the instance sleeps or redeploys.
